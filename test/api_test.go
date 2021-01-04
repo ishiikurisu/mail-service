@@ -13,20 +13,24 @@ var (
 )
 
 func TestRootApiCall(t *testing.T) {
-    email := "liberdade-organizacao@gmail.com"
+    to_email := "crisjr@pm.me"
+    msg := "おはよう！"
 
     response, err := http.PostForm(rootUrl + "/", url.Values{
-        "from": {email},
+        "to": {to_email},
+        "msg": {msg},
     })
+
     if err != nil {
-        t.Log("Error should be nil", err)
+        t.Log("Error should be nil")
+        t.Log(err)
         t.Fail()
     }
 
     rawData, err := ioutil.ReadAll(response.Body)
     data := string(rawData[:])
-    if !strings.Contains(data, email) {
-        t.Log("Email didn't appear on data")
+    if !strings.Contains(data, "sent") {
+        t.Log("Failed to send email, response was: ", data)
         t.Fail()
     }
 }
