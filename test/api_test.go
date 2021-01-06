@@ -14,11 +14,13 @@ var (
 
 func TestRootApiCall(t *testing.T) {
     to_email := "crisjr@pm.me"
+    subject := "君までメール"
     msg := "おはよう！"
 
     response, err := http.PostForm(rootUrl + "/", url.Values{
         "to": {to_email},
-        "msg": {msg},
+        "subject": {subject},
+        "message": {msg},
     })
 
     if err != nil {
