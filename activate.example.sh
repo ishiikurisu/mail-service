@@ -1,4 +1,4 @@
-export PORT=":8000"
+export PORT="8000"
 export HOSTNAME="smtp.gmail.com"
 export HOSTPORT=":587"
 export HOSTMAIL="test@gmail.com"
