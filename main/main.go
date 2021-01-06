@@ -25,7 +25,9 @@ func index(w http.ResponseWriter, r *http.Request) {
 
     r.ParseForm()
     to := r.Form["to"]
-    msg := []byte(r.Form["msg"][0])
+    subject := r.Form["subject"][0]
+    contents := r.Form["message"][0]
+    msg := []byte(CreateMessage(subject, contents))
 
 	err := smtp.SendMail(address, auth, from, to, msg)
 
@@ -34,4 +36,10 @@ func index(w http.ResponseWriter, r *http.Request) {
     } else {
         fmt.Fprintf(w, "failed: %#v", err)
     }
+}
+
+func CreateMessage(subject, contents string) string {
+    subjectHeader := fmt.Sprintf("Subject: %s", subject)
+    headers := "MIME-version: 1.0;\nContent-Type: text/plain; charset=\"UTF-8\";\n\n"
+    return fmt.Sprintf("%s\n%s\n%s\n", subjectHeader, headers, contents)
 }
